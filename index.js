@@ -1,58 +1,165 @@
+// Requiring the Word module exported from word.js
 var Word = require("./word");
 
-var word = new Word("rockets");
+// dependency for inquirer npm package;
+var inquirer = require("inquirer");
 
-console.log(word);
+//define an Array to store all the words;
+var wordLib =["rockets", "warriors", "cavaliers", "celtics", "raptors", "spurs", "mavericks", "hawks", "thunder"];
 
-word.check("r");
-word.check("t");
+//randomly choose one word from wordLib Array;
+var indexOfWordChosen = randomIntFromInterval(0, wordLib.length);
+var wordChosen = wordLib[indexOfWordChosen];
 
-var displayword = word.displayWord();
+//create a new Word object based on the wordChosen;
+var word = new Word(wordChosen);
+//console.log(word);
+var lettersGuessed = "";
+var numOfguessLeft = 10;
 
-console.log(displayword);
+function guess() {
+    
+    
+  
+    if (word.displayWord() !== wordChosen) {
+        inquirer.prompt([
+            {
+            name: "name",
+            message: "Guess a Letter!"
+            }
+        ]).then(function(answers) {
+            if(lettersGuessed.indexOf(answers.name) > -1) {
+                
+                if(wordChosen.indexOf(answers.name) > -1) {
+                    word.check(answers.name);
+                    console.log("");
+                    console.log("Correct! However you have tried this before!");
+                    console.log( "Guess Number Left: " + numOfguessLeft);
+                    console.log("");
+                    guess();
+                } else {
+                    word.check(answers.name);
+                    console.log("");
+                    console.log("You made this same mistake before! Sorry");
+                    numOfguessLeft -= 1;
+                    console.log( "Guess Number Left: " + numOfguessLeft);
+                    console.log("");
+                    if (numOfguessLeft > 0) {
+                        guess();
+                    } else {
+                        console.log("You Lost!");
+                        inquirer.prompt([
+                            {
+                                name: "confirmed",
+                                type: "confirm",
+                                message: "Want to guess another word?"
+                            }
+                        ]).then(function(result){
+                            if (result.confirmed) {
+                                initialize();
+                                guess();
+                
+                            } else {
+                                console.log("Come Back later!");
+                            }
+                
+                        });
+                    }
+                }
+           
+            //console.log(word.displayWord());
+            //guess();
+            } else {
+                lettersGuessed += answers.name;
+                if(wordChosen.indexOf(answers.name) > -1) {
+                    word.check(answers.name);
+                    console.log("");
+                    console.log("Correct!");
+                    console.log( "Guess Number Left: " + numOfguessLeft);
+                    console.log("");
+                    guess();
+                } else {
+                    word.check(answers.name);
+                    console.log("");
+                    console.log("Incorrect");
+                    numOfguessLeft -= 1;
+                    console.log( "Guess Number Left: " + numOfguessLeft);
+                    console.log("");
+                    if (numOfguessLeft > 0) {
+                        guess();
+                    } else {
+                        console.log("You Lost!");
+                        inquirer.prompt([
+                            {
+                                name: "confirmed",
+                                type: "confirm",
+                                message: "Want to guess another word?"
+                            }
+                        ]).then(function(result){
+                            if (result.confirmed) {
+                                initialize();
+                                guess();
+                
+                            } else {
+                                console.log("Come Back later!");
+                            }
+                
+                        });
+                    }
+                }
 
-// var charArr = word.split("");
+            }
 
-// var guessArr =[];
-// for (i=0;i<charArr.length;i++) {
-//     guessArr.push(new Letter(charArr[i]));
+        });
+    } else {
+        console.log(" You Made IT!");
+        inquirer.prompt([
+            {
+                name: "confirmed",
+                type: "confirm",
+                message: "Want to guess another word?"
+            }
+        ]).then(function(result){
+            if (result.confirmed) {
+                initialize();
+                guess();
 
-// }
+            } else {
+                console.log("Come Back later!");
+            }
 
-// console.log(guessArr);
+        });
+    }
 
-// var guessWord = "";
+}
 
-// for (i=0;i<guessArr.length;i++) {
-//     guessWord += guessArr[i].display()+" ";
+guess();
+    
 
-// }
+// word.check("r");
+// word.check("t");
 
-// console.log(guessWord);
+// var displayword = word.displayWord();
 
-// function check(char){
-//     for (i=0;i<guessArr.length;i++) {
-//         //console.log(guessArr[i].underlyingletter);
-//         // if (char === guessArr[i].underlyingLetter) {
-//         //     guessArr[i].guessed = true;
-//         // }
-//         var character = char;
-//         guessArr[i].check(character);
+// console.log(displayword);
 
-//     }
-// }
+function initialize() {
+    //randomly choose one word from wordLib Array;
+    indexOfWordChosen = randomIntFromInterval(0, wordLib.length);
+    wordChosen = wordLib[indexOfWordChosen];
 
-// check("r");
-// check("o");
-// check("t");
+//create a new Word object based on the wordChosen;
+    word = new Word(wordChosen);
+//console.log(word);
+    lettersGuessed = "";
+    numOfguessLeft = 10;
 
-// console.log(guessArr);
+}
 
-// guessWord = "";
 
-// for (i=0;i<guessArr.length;i++) {
-//     guessWord += guessArr[i].display()+" ";
+//function to generate a random number between min and max;
+function randomIntFromInterval(min,max){
 
-// }
+    return Math.floor(Math.random()*(max-min+1)+min);
 
-// console.log(guessWord);
+}

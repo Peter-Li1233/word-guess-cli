@@ -23,12 +23,14 @@ function Word(underlyingWord) {
 // * A function that returns a string representing the word. This should call the function on each letter object (the first function defined in `Letter.js`) that displays the character or an underscore and concatenate those together.
     this.displayWord = function() {
         var guessWord = "";
+        var displayWord = "";
         for (i=0;i<this.wordArr.length;i++) {
-            guessWord += this.wordArr[i].display()+" ";
+            guessWord += this.wordArr[i].display();
+            displayWord += this.wordArr[i].display() + " ";
         
         }
-        guessWord = guessWord.trim()
-        //console.log(guessWord);
+        //guessWord = guessWord.trim()
+        console.log(displayWord);
         return guessWord;
     }
 
