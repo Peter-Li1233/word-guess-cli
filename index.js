@@ -1,49 +1,58 @@
-var Letter = require("./Letter");
+var Word = require("./word");
 
-var word = "rockets";
+var word = new Word("rockets");
 
-var charArr = word.split("");
+console.log(word);
 
-var guessArr =[];
-for (i=0;i<charArr.length;i++) {
-    guessArr.push(new Letter(charArr[i]));
+word.check("r");
+word.check("t");
 
-}
+var displayword = word.displayWord();
 
-console.log(guessArr);
+console.log(displayword);
 
-var guessWord = "";
+// var charArr = word.split("");
 
-for (i=0;i<guessArr.length;i++) {
-    guessWord += guessArr[i].display()+" ";
+// var guessArr =[];
+// for (i=0;i<charArr.length;i++) {
+//     guessArr.push(new Letter(charArr[i]));
 
-}
+// }
 
-console.log(guessWord);
+// console.log(guessArr);
 
-function check(char){
-    for (i=0;i<guessArr.length;i++) {
-        //console.log(guessArr[i].underlyingletter);
-        // if (char === guessArr[i].underlyingLetter) {
-        //     guessArr[i].guessed = true;
-        // }
-        var character = char;
-        guessArr[i].check(character);
+// var guessWord = "";
 
-    }
-}
+// for (i=0;i<guessArr.length;i++) {
+//     guessWord += guessArr[i].display()+" ";
 
-check("r");
-check("o");
-check("t");
+// }
 
-console.log(guessArr);
+// console.log(guessWord);
 
-guessWord = "";
+// function check(char){
+//     for (i=0;i<guessArr.length;i++) {
+//         //console.log(guessArr[i].underlyingletter);
+//         // if (char === guessArr[i].underlyingLetter) {
+//         //     guessArr[i].guessed = true;
+//         // }
+//         var character = char;
+//         guessArr[i].check(character);
 
-for (i=0;i<guessArr.length;i++) {
-    guessWord += guessArr[i].display()+" ";
+//     }
+// }
 
-}
+// check("r");
+// check("o");
+// check("t");
 
-console.log(guessWord);
+// console.log(guessArr);
+
+// guessWord = "";
+
+// for (i=0;i<guessArr.length;i++) {
+//     guessWord += guessArr[i].display()+" ";
+
+// }
+
+// console.log(guessWord);
